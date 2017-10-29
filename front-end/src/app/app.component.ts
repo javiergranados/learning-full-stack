@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +13,11 @@ export class AppComponent {
   userPlaceholder = "Introduzca un usuario";
   password = "Contraseña";
   passwordPlaceholder = "Introduzca una contraseña";
-  btnSave = "Log in";
+  btnSave = "Iniciar sesión";
+  credentials = { user: null, password: null };
 
   //Actions
+  logIn(){
+    //TODO
+  }
 }
