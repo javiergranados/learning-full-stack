@@ -1,0 +1,1 @@
+Ejemplo full-stack de una feature de login con Node.js (Express, MongoDB) en el back-end y Angular2 en el front-end
