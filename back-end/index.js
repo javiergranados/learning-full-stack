@@ -13,41 +13,91 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 function restart () {
-  mongoose.connection.collections['users'].drop((err) => {
-    if (err) console.log(`Error al borrar la base de datos: ${err}`)
-
-    console.log('Base de datos borrada. Creando usuarios...')
-    createUserByDefault('usuario1', '123')
-    createUserByDefault('usuario2', '456')
-    createUserByDefault('usuario3', '789')
-  })
-}
-
-function createUserByDefault (name, password) {
-  let user = new User()
-  user.name = name
-  user.password = password
-
-  user.save((err, userStored) => {
-    if (err) return console.log(`Error al guardar el usuario: ${err}`)
-
-    console.log('Usuario guardado correctamente')
-  })
+  mongoose.connection.db.dropDatabase()
+  console.log('Base de datos reiniciada')
 }
 
 app.get('/api/login', (req, res) => {
-  User.find({}, (err, users) => {
-    if (err) return res.status(500).send({message: `Error al realizar la petición ${err}`})
-    if (!users) return res.status(404).send({message: 'No existen productos'})
+  console.log('GET /api/login')
 
-    res.status(200).send(users)
+  User.find({}, (err, users) => {
+    let status, message
+
+    if (err) {
+      status = 500
+      message = `Error al realizar la petición: ${err}`
+    } else if (users.length === 0) {
+      status = 400
+      message = 'No existen usuarios'
+    } else {
+      status = 200
+    }
+
+    res.status(status).send({message, users})
   })
 })
 
-mongoose.connect('mongodb://localhost:27017/users', (err, res) => {
-  if (err) return console.log(`Error al conectar a la base de datos: ${err}`)
-  console.log('Conexión a la base de datos establecida...')
+app.post('/api/login', (req, res) => {
+  console.log('POST /api/login')
+  console.log(req.body)
 
+  let status, message
+  if (!req.body.name || !req.body.password) {
+    status = 400
+    message = 'Faltan campos obligatorios'
+
+    res.status(status).send({message})
+  } else {
+    let user = new User()
+    user.name = req.body.name
+    user.password = req.body.password
+
+    user.save((err, userStored) => {
+      if (err) {
+        status = 500
+        message = `Error al realizar la petición: ${err}`
+      } else {
+        status = 200
+        message = 'Usuario guardado correctamente'
+      }
+
+      res.status(status).send({message, userStored})
+    })
+  }
+})
+
+app.put('/api/login', (req, res) => {
+  console.log('PUT /api/login')
+  console.log(req.body)
+
+  let status, message
+  if (!req.body.name || !req.body.password) {
+    status = 400
+    message = 'Faltan campos obligatorios'
+
+    res.status(status).send({message})
+  } else {
+    User.findOne({'name': req.body.name, 'password': req.body.password}, (err, userStored) => {
+      if (err) {
+        status = 500
+        message = `Error al realizar la petición: ${err}`
+      } else if (!userStored) {
+        status = 401
+        message = 'El nombre de usuario o la contraseña no son correctos'
+      } else {
+        status = 200
+        message = 'Login correcto'
+      }
+
+      res.status(status).send({message, userStored})
+    })
+  }
+})
+
+mongoose.connect('mongodb://localhost:27017/appDatabase', (err, res) => {
+  if (err) return console.log(`Error al conectar a la base de datos: ${err}`)
+
+  console.log('Conexión a la base de datos establecida...')
   restart()
 
   app.listen(port, () => {
