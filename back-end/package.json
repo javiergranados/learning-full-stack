@@ -4,7 +4,8 @@
   "description": "Back-end de una feature de login",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "test": "standard"
   },
   "author": "Javier Granados",
   "license": "ISC",
@@ -13,6 +14,7 @@
     "express": "^4.16.2"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "standard": "^10.0.3"
   }
 }
