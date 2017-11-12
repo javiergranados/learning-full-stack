@@ -12,7 +12,8 @@ function getAll (req, res) {
       status = 500
       message = `Error al realizar la petición: ${err}`
     } else if (users.length === 0) {
-      status = 400
+      status = 200
+      users = []
       message = 'No existen usuarios'
     } else {
       status = 200
@@ -67,7 +68,8 @@ function getUser (req, res) {
         status = 500
         message = `Error al realizar la petición: ${err}`
       } else if (!userStored) {
-        status = 401
+        status = 200
+        userStored = []
         message = 'El nombre de usuario o la contraseña no son correctos'
       } else {
         status = 200
