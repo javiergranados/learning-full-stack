@@ -43,7 +43,11 @@ export class AppComponent {
       .put('http://localhost:3000/api/login', body, options)
       .map(response => response.json())
       .subscribe(
-        response =>  alert('OK: ' + response.message),
+        response =>  {
+          alert('OK: ' + response.message)
+          this.credentials = { user: '', password: '' }
+          this.createMode = false
+        },
         error => console.log('Error: ' + error)
     );
   }
@@ -63,7 +67,11 @@ export class AppComponent {
       .post('http://localhost:3000/api/login', body, options)
       .map(response => response.json())
       .subscribe(
-        response =>  alert('OK: ' + response.message),
+        response =>  {
+          alert('OK: ' + response.message)
+          this.credentials = { user: '', password: '' }
+          this.createMode = false
+        },
         error => console.log('Error: ' + error)
     );
   }
