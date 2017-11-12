@@ -17,8 +17,8 @@ export class AppComponent {
   btnCreate = "Crear usuario";
   btnSignUp = "Registrarse";
   btnCancel = "Cancelar";
-  credentials = { user: 'usuario', password: 'usuario' };
-  createMode = true;
+  credentials = { user: '', password: '' };
+  createMode = false;
 
   //Actions
   logIn(){
