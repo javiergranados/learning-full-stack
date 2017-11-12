@@ -29,7 +29,23 @@ export class AppComponent {
 
   //Actions
   logIn(){
-    //TODO
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    const body = {
+      name : this.credentials.user,
+      password : this.credentials.password
+    };
+
+    this.http
+      .put('http://localhost:3000/api/login', body, options)
+      .map(response => response.json())
+      .subscribe(
+        response =>  alert('OK: ' + response.message),
+        error => console.log('Error: ' + error)
+    );
   }
 
   signUp(){
@@ -47,8 +63,8 @@ export class AppComponent {
       .post('http://localhost:3000/api/login', body, options)
       .map(response => response.json())
       .subscribe(
-        response =>  alert('OK' + response.message),
-        error => alert('ERROR' + error.message)
+        response =>  alert('OK: ' + response.message),
+        error => console.log('Error: ' + error)
     );
   }
 }
