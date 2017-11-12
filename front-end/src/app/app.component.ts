@@ -13,8 +13,12 @@ export class AppComponent {
   userPlaceholder = "Introduzca un usuario";
   password = "Contraseña";
   passwordPlaceholder = "Introduzca una contraseña";
-  btnSave = "Iniciar sesión";
-  credentials = { user: null, password: null };
+  btnLogin = "Iniciar sesión";
+  btnCreate = "Crear usuario";
+  btnSignUp = "Registrarse";
+  btnCancel = "Cancelar";
+  credentials = { user: 'usuario', password: 'usuario' };
+  createMode = true;
 
   //Actions
   logIn(){

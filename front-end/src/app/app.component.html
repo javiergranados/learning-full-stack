@@ -26,12 +26,21 @@
     </div>
   </div>
   <hr>
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-      <a class="btn btn-primary btn-block" (click)="logIn()">{{btnSave}}</a>
-
+  <div class="row" *ngIf="!createMode">
+    <div class="col-md-2 col-md-offset-4">
+      <a class="btn btn-primary btn-block" (click)="logIn()">{{btnLogin}}</a>
+    </div>
+    <div class="col-md-2">
+      <a class="btn btn-info btn-block" (click)="createMode = true">{{btnCreate}}</a>
+    </div>
+  </div>
+  <div class="row" *ngIf="createMode">
+    <div class="col-md-2 col-md-offset-4">
+      <a class="btn btn-success btn-block" (click)="signUp()">{{btnSignUp}}</a>
+    </div>
+    <div class="col-md-2">
+      <a class="btn btn-danger btn-block" (click)="createMode = false">{{btnCancel}}</a>
     </div>
   </div>
 
 </section>
-
