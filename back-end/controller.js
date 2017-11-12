@@ -34,20 +34,39 @@ function newUser (req, res) {
 
     res.status(status).send({message})
   } else {
-    let user = new User()
-    user.name = req.body.name
-    user.password = req.body.password
+    let promise = new Promise(function (resolve, reject) {
+      User.findOne({'name': req.body.name}, (err, userStored) => {
+        if (err) {
+          reject(userStored)
+        }
+        resolve(userStored)
+      })
+    })
 
-    user.save((err, userStored) => {
-      if (err) {
-        status = 500
-        message = `Error al realizar la petición: ${err}`
-      } else {
+    promise.then(userStored => {
+      if (userStored) {
         status = 200
-        message = 'Usuario guardado correctamente'
-      }
+        userStored = []
+        message = 'El nombre de usuario ya existe'
 
-      res.status(status).send({message, userStored})
+        res.status(status).send({message, userStored})
+      } else {
+        let user = new User()
+        user.name = req.body.name
+        user.password = req.body.password
+
+        user.save((err, userStored) => {
+          if (err) {
+            status = 500
+            message = `Error al realizar la petición: ${err}`
+          } else {
+            status = 200
+            message = 'Usuario guardado correctamente'
+          }
+
+          res.status(status).send({message, userStored})
+        })
+      }
     })
   }
 }
