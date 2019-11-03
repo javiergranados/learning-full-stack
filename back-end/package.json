@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "cors": "^2.8.4",
-    "mongoose": "^4.13.0",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.12.1",
     "standard": "^10.0.3"
   }
